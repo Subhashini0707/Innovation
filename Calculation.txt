@@ -1,0 +1,92 @@
+package com.demo.controller;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.demo.Service.Testservice;
+
+
+
+
+@RestController
+@RequestMapping("/api/")
+public class Control {
+int Calculation;
+@Autowired  Testservice obj;
+ 
+@RequestMapping(value = "testApi", method = RequestMethod.GET)
+public ResponseEntity<?> testApi(@RequestParam String option,@RequestParam int num1,@RequestParam int  num2) throws Exception
+{
+	switch(option){
+	case "add":
+		Calculation=obj.add(num1,num2);
+	break;
+	case "sub":
+		Calculation=obj.Sub(num1, num2);
+	break;
+	case "multi":
+		Calculation= obj.mult(num1, num2);
+	case "divi":
+
+		Calculation=obj.divi(num1, num2);
+	break;
+
+
+	}
+//requestParam.put("Status", "Success");
+//requestParam.put("addition",obj.add() );
+//requestParam.put("subtraction",obj.Sub());
+//requestParam.put("multiplication",obj.mult());
+//requestParam.put("division",obj.divi());
+return new ResponseEntity<>(Calculation, HttpStatus.OK);
+}
+}
+
+
+
+
+
+package com.demo.Service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class Testservice {
+    public int add(int num1, int num2) {
+    	
+    	 int addition=num1+num2;
+		return addition;
+		
+	}
+    public int Sub(int num1, int num2) {
+    	
+    	 int subtraction=num1-num2;
+		return subtraction;
+		
+	}
+    public int mult(int num1, int num2) {
+    	
+    	 int multiplication=num1*num2;
+		return multiplication;
+		
+	}
+    public int divi(int num1, int num2) {
+    	
+    	 int division=num1/num2;
+		return division;
+		
+	}
+	
+	
+   
+   
+ 
+
+    }
+
