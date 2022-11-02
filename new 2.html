@@ -1,0 +1,57 @@
+<html>
+<head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> </script>
+		 
+	<script type="text/javascript" language="javascript">
+
+		 $(document).ready(function() {
+
+
+			$("#submit").click(function () {
+				var op = "name=" + $("#bookname").val() 
+				alert(op);
+				var op = "bookid=" + $("#bookid").val() 
+				alert(op);
+				var op = "bookauthor" + $("#bookauthor").val() 
+				alert(op);
+			});
+		 
+
+			$("#reset").click(function () {
+				$("#bookname").val('');
+					$("#bookid").val('');
+					$("#bookauthor").val('');
+				
+			});
+
+		 });
+
+	function myfunction() {
+		alert('Hi');
+	}
+	</script>
+
+<body>
+		<table id="Library" border="1">
+		<tr>
+			<td>Book Name</td>
+                        <td>Book Id</td>
+ 		        <td>Author</td>
+                        <td>Edition</td>
+          </tr>
+	  <tr>
+			<td><input type="text" id="bookname"> </input> </td>
+			<td><input type="text" id="bookid"> </input> </td>
+			<td><input type="text" id="bookauthor"> </input> </td>
+			<td><input type="text"value ="2018"readonly="true" id="bookedition"> </input> </td>
+
+	
+          </tr>
+	 
+		</table>
+			<br><br>
+			<input type="button" id="submit" value="submit" onclick=function() />
+			<input type="button" id="reset"  value="reset" />
+
+</body>
+</html>
