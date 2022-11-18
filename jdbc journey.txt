@@ -1,0 +1,127 @@
+package org.amazon;
+
+import java.io.FileInputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Collection;
+import java.util.Properties;
+
+public class Jdbc {
+
+	
+private static Connection con;
+
+public static void main(String[] args) throws Exception{	
+	try {
+//Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+//	Connection con = DriverManager.getConnection ("jdbc:sqlserver://192.168.168.12:1433;databaseName=New_joinee_2022","NewJoinee2022","P@ssw0rd");
+	FileInputStream f= new 	FileInputStream("C:\\Users\\MDA\\eclipse-workspace\\Subha\\confg.properties");
+	
+	Properties pro = new Properties();
+	pro.load(f);
+	String url= pro.getProperty("url");
+	String userName= pro.getProperty("userName");
+	String Password = pro.getProperty("Password");
+	
+	Connection c = DriverManager.getConnection(url,userName,Password);
+	System.out.println("Connected");
+	Statement stm=c.createStatement();
+	ResultSet rs= stm.executeQuery("select * from SUBHAHINI_STATION_NAMES");
+	
+
+while(rs.next())  
+		System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  ");  
+	c.close(); 
+		
+
+	
+FileInputStream fs= new 	FileInputStream("C:\\Users\\MDA\\eclipse-workspace\\Subha\\confg.properties");
+	
+	Properties p = new Properties();
+	p.load(fs);
+	String purl= p.getProperty("url");
+	String puserName= p.getProperty("userName");
+	String pPassword = p.getProperty("Password");
+	
+	Connection con = DriverManager.getConnection(purl,puserName,pPassword);
+	System.out.println("Connected");
+	Statement s=con.createStatement();
+	ResultSet r= s.executeQuery("select * from SUBHAHINIS_JOURNEYS_DISTINATIONS ");
+	
+
+while(r.next())  
+		System.out.println(r.getInt(1)+"  "+r.getInt(2)+"  "+r.getInt(3)+" "+r.getInt(4)+" "+r.getInt(5)+" ");  
+	con.close();
+
+
+}	
+	catch(Exception e) {
+	
+	System.out.println(e);
+	
+	}
+		
+	
+}}
+------------------------------------------
+package org.amazon;
+
+import java.io.FileInputStream;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Properties;
+
+public class SpJdbc {
+
+	
+	public static void main(String[] args) throws Exception{	
+		try {
+	//Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+//		Connection con = DriverManager.getConnection ("jdbc:sqlserver://192.168.168.12:1433;databaseName=New_joinee_2022","NewJoinee2022","P@ssw0rd");
+		FileInputStream f= new 	FileInputStream("C:\\Users\\MDA\\eclipse-workspace\\Subha\\confg.properties");
+		
+		Properties pro = new Properties();
+		pro.load(f);
+		String url= pro.getProperty("url");
+		String userName= pro.getProperty("userName");
+		String Password = pro.getProperty("Password");
+		
+		  Connection cons = DriverManager.getConnection(url,userName,Password);
+		  String sql ="calls SUBHASHINI_TIME_DURATION()";
+        CallableStatement calls = cons.prepareCall(sql);
+    	
+		System.out.println("Connected");
+		Statement st=cons.createStatement();
+		
+		ResultSet r= st.executeQuery("SELECT sn.STATION_NAME,sd .STARTING_POINT ,ss.STATION_NAME,sd.ENDING_POINT,sd.REACHING_TIMING,sd.DISTANCE\r\n"
+				+ "FROM SUBHAHINIS_JOURNEYS_DISTINATIONS as sd\r\n"
+				+ " JOIN  SUBHAHINI_STATION_NAME as sn \r\n"
+				+ "ON sn.ID=sd .STARTING_POINT  \r\n"
+				+ " JOIN SUBHAHINI_STATION_NAME as ss\r\n"
+				+ "ON ss.ID=sd .ENDING_POINT  ");
+		
+
+		while(r.next())  
+				System.out.println(r.getString(1)+"  "+r.getInt(2)+"  "+r.getString(3)+" "+r.getInt(4)+" "+r.getInt(5)+" "+r.getInt(6)+" ");  
+			cons.close();
+
+	
+	
+		}
+		
+		catch(Exception e) {
+		
+		System.out.println(e);
+		
+		}
+			
+		
+	
+	}}
+	
+
