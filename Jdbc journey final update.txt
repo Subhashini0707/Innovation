@@ -1,0 +1,66 @@
+org.amazon;
+
+import java.io.FileInputStream;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.Types;
+import java.util.Properties;
+import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+
+public class SpJdbc {
+	static Scanner s = new Scanner(System.in);
+	
+	public static void main(String[] args) throws Exception{	
+		try {
+		FileInputStream f= new 	FileInputStream("C:\\Users\\MDA\\eclipse-workspace\\Subha\\confg.properties");
+		Properties pro = new Properties();
+		pro.load(f);
+		String url= pro.getProperty("url");
+		String userName= pro.getProperty("userName");
+		String Password = pro.getProperty("Password");
+		Connection con = DriverManager.getConnection(url,userName,Password);
+		
+		 String sql =("{call  SUBHASHINIS_TIME_DURATION (?,?,?) }");
+		CallableStatement call =con.prepareCall(sql);
+		String Start =s.next();
+		String End =s.next();
+		int Speed =s.nextInt();
+		call.setInt(1,Speed);
+		call.setString(2,Start);
+		call.setString(3,End);
+		
+		
+		     // call.setInt("@speed",1 );
+		      ResultSet rs=call.executeQuery();
+			 while(rs.next()){
+		            System.out.println(rs.getInt(6)+"  ");
+		            double Time = (int) (rs.getInt(6 / Speed));
+		    		double hr1 = Time * 60;
+		    		System.out.println(Time + "hrs");
+		    		System.out.println(hr1 + "mins");
+		    		
+		    		  Statement stmt = con.createStatement();
+
+					//ResultSet result = stmt.executeQuery("update SUBHAHINISS_JOURNEYS_DISTINATIONS set REACHING_TIMING="+Time +"where id=4 ");
+					 String sql1 = "update SUBHAHINISS_JOURNEYS_DISTINATIONS " +
+					            "SET REACHING_TIMING="+Time+ "where id=4 ";
+					         stmt.executeUpdate(sql1);
+					
+					
+		         
+		}     con.close(); 
+		}
+		catch(Exception e) {
+		
+		System.out.println(e);
+		
+		}
+	}
+
+}
